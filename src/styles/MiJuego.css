@@ -1,6 +1,7 @@
 .juego_container_padre {
     padding: 0 1.4rem;
     margin: 2rem 4rem 4rem 4rem;
+    outline: none;
 }
 
 .juego_container {

@@ -1,4 +1,4 @@
-import "./App.css";
+import "../styles/App.css";
 import { MiJuego } from "./MiJuego";
 
 function App() {
