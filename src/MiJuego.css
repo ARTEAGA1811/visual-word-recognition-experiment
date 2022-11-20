@@ -1,0 +1,58 @@
+.juego_container_padre {
+    padding: 0 1.4rem;
+    margin: 2rem 4rem 4rem 4rem;
+}
+
+.juego_container {
+    display: flex;
+    height: 25rem;
+    justify-items: center;
+    border: 1px solid #004f88;
+    /* Add dorder radious only to the top */
+    border-radius: 1rem 1rem 0 0;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.juego .palabra_signo {
+    font-size: 3rem;
+    color: #004f88;
+    margin: 0 0.5rem;
+}
+
+.progreso {
+    border: 1px solid #004f88;
+    border-top: 0;
+    height: 1rem;
+    /* Add border radious only to the bottom */
+    border-radius: 0 0 0.2rem 0.2rem;
+    width: 100%;
+    transition: width 0.5s;
+}
+
+.progreso .progreso_barra {
+    background-color: #004f88;
+    /* Add border radious only to the bottom */
+    border-radius: 0 0 0.2rem 0.2rem;
+    height: 100%;
+    width: 3%;
+    transition: width 0.5s;
+}
+
+
+.mi_boton{
+    background-color: #004f88;
+    font-size: 2rem;
+    color: white;
+    border: 0;
+    border-radius: 0.2rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.mi_boton:hover{
+    background-color: #036bb6;
+}
