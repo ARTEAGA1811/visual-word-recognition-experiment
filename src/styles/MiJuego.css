@@ -37,7 +37,7 @@
     /* Add border radious only to the bottom */
     border-radius: 0 0 0.2rem 0.2rem;
     height: 100%;
-    width: 3%;
+    width: 0%;
     transition: width 0.5s;
 }
 

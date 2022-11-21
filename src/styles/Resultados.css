@@ -1,0 +1,28 @@
+.contenedor_resultado{
+    color: #004f88;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo{
+    margin-bottom: 0.8rem;
+}
+
+.resultados{
+    font-size: larger;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.resultados_atinadas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

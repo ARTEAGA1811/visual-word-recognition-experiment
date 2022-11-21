@@ -1,28 +1,47 @@
 import React from "react";
 import '../styles/MiJuego.css';
 import { palabrasReales, palabrasNOReales , resultadoPalabras, resultadoTiempo } from "../datos"; 
+import { Resultados } from "./Resultados";
 
 let indicePalabraActual = 0;
 const palabras = [...palabrasReales, ...palabrasNOReales];
 palabras.sort(() => Math.random() - 0.5);
 
 
+
+let renderInicial = true;
+let tiempoPalabra = null;
 //Timeout: T
 //Palabra: P
 //Simbolo: S
 let turnoPalabra = 'T';
-let renderInicial = true;
+let miPalabraAMostrar;
+let interrupcionRespuesta = false;
 
 const MiJuego = () => {
 
-    const [estadoActual, setEstadoActual] = React.useState("inicio");
+    //const [estadoActual, setEstadoActual] = React.useState("inicio");
+    const [estadoActual, setEstadoActual] = React.useState("fin");
     const [palabraActual, setPalabraActual] = React.useState("");
+    const [porcentaje, setPorcentaje] = React.useState(0);
 
     const padreJuego = React.useRef();
     const htmlPalabra = React.useRef();
+    const progreso_barra = React.useRef();
 
     console.log(palabras);
     //console.log(indicePalabraActual)
+
+
+    const calcularPorcentaje = () =>{
+        //Cambio la barra de porcentaje
+        console.log("Calculando porcentaje");
+        console.log("indice", indicePalabraActual);
+        console.log("palabras totales", palabras.length);
+        let porcentaje = ((indicePalabraActual) / palabras.length) * 100;
+        console.log(porcentaje);
+        return porcentaje;
+    }
 
     const cambiarEstado = (nuevoEstado) => {
         setEstadoActual(nuevoEstado);
@@ -32,30 +51,18 @@ const MiJuego = () => {
         }
     }
 
-    const cambiarPalabra = (event) => {
-        console.log(event.key);
-
-        if (estadoActual !== "juego") {
-            return;
-        }
-        if (event.key === "z" || event.key === "Z" || event.key === "M" || event.key === "m") {
-            if (indicePalabraActual < palabras.length) {
-                setPalabraActual(palabras[indicePalabraActual]);
-                indicePalabraActual++;
-                //setIndicePalabraActual(indicePalabraActual + 1);
-            } else {
-                setPalabraActual("Fin del experimento");
-            }
-        }
-        console.log("holis")
-    }
-
-    const ejecutarTimeout = (tiempo, nuevaPalabra) => {
-        return new Promise((resolve, reject) => {
-            const timeID = setTimeout(() => {
+    const ejecutarTimeout = (tiempo) => {
+        let promesa, timeID;
+        promesa = new Promise((resolve, reject) => {
+            timeID = setTimeout(() => {
                 resolve(timeID);
             }, tiempo);
         });
+
+        return {
+            promesa: promesa,
+            cancelar: () => { clearTimeout(timeID); }
+        }
     }
 
     const palabraInvisible = () => {
@@ -66,49 +73,130 @@ const MiJuego = () => {
     }
 
     const mostrarPalabra = async () => {
+        console.log("Indice: " + indicePalabraActual);
         //debugger;
-        console.log("mostrar palabra");
+        //console.log("mostrar palabra");
         if (indicePalabraActual >= palabras.length) {
-            setPalabraActual("Fin del experimento");
+            console.log("Fin del juego");
+            htmlPalabra.current.style.visibility = "visible";
+            // const misResultadosFinales = ""
+            // setPalabraActual("Fin del experimento");
+            cambiarEstado("fin");
             return;
         }
 
-        let miPalabraAMostrar;
         //Si estuvo en Timeout, debe mostrar el simbolo
         if (turnoPalabra === 'T') {
             console.log("Ahora está en timeout")
+            console.log("Indice: " + indicePalabraActual);
+            htmlPalabra.current.style.visibility = "visible";
             miPalabraAMostrar = '+';
             turnoPalabra = 'S';
-            const timeID = await ejecutarTimeout(1000, miPalabraAMostrar);
-            console.log("auxiliar")
+            await ejecutarTimeout(1000).promesa;
+
+
             setPalabraActual(miPalabraAMostrar);
+
+            //Actualizo la barrade progreso
+            setPorcentaje(calcularPorcentaje());
+        
         } else if (turnoPalabra === 'S') {
             console.log("Ahora está en simbolo")
+            console.log("Palabra: " + palabras[indicePalabraActual]);
+
+            
             //Si estuvo en Simbolo, debe mostrar la palabra
+            htmlPalabra.current.style.visibility = "visible";
+            await ejecutarTimeout(300).promesa;
             miPalabraAMostrar = palabras[indicePalabraActual];
             turnoPalabra = 'P';
-            indicePalabraActual++;
-            const timeID = await ejecutarTimeout(600, miPalabraAMostrar);
             setPalabraActual(miPalabraAMostrar);
+        
         } else if (turnoPalabra === 'P') {
             console.log("Ahora está en palabra")
+            interrupcionRespuesta = false;
 
-            //Si estuvo en Palabra, debe mostrar el timeout
-            miPalabraAMostrar = 'Tiempo Agotado';
-            turnoPalabra = 'T';
+            
 
             //Hacemos invisible la palabra
             setTimeout(() => {
                 palabraInvisible();
             }, 300);
 
-            const timeID = await ejecutarTimeout(3000, miPalabraAMostrar);
-            setPalabraActual(miPalabraAMostrar);
-            
+            tiempoPalabra = ejecutarTimeout(6000);
+            await tiempoPalabra.promesa;
+
+            console.log("Voy a ingresar a la interrupción: ", interrupcionRespuesta);
+            console.log("Voy a ingresar a la interrupción con el indice: ", indicePalabraActual);
+            if (!interrupcionRespuesta) {
+                console.log("No hubo interrupción");
+                //Si estuvo en Palabra, debe mostrar el timeout
+                miPalabraAMostrar = 'Tiempo Agotado';
+                turnoPalabra = 'T';
+                
+                indicePalabraActual++;
+                
+                setPalabraActual(miPalabraAMostrar);
+            }
+
+
             //Hacemos visible la palabra
             palabraVisible();
         }
         //return miPalabraAMostrar;
+    }
+
+    const analizarRespuesta = async (event) => {
+        
+
+        if (estadoActual !== "juego") {
+            return;
+        }
+        if (turnoPalabra !== 'P') {
+            return;
+        }
+        if (event.key === "z" || event.key === "Z" || event.key === "M" || event.key === "m") {
+            
+            //Se elimina el tiempo de la palabra y se continúa con la siguiente, se empieza con el símbolo.
+            console.log(event.key);
+            console.log("Inicia la interrupción");
+            console.log("Inicia la interrupción con el indice: ", indicePalabraActual);
+            interrupcionRespuesta = true;
+            tiempoPalabra.cancelar();
+            
+            
+            //Aquí ingrsamos la lógica que registra si la palabra es real o no
+            if (palabrasReales.includes(palabras[indicePalabraActual])) {
+                console.log("Es real");
+                if (event.key === "m" || event.key === "M") {
+                    console.log("Acertó");
+                    resultadoPalabras["palabrasRealesAtinadas"]++;
+                } else {
+                    console.log("Falló");
+                }
+            } else {
+                console.log("No es real");
+                if (event.key === "z" || event.key === "Z") {
+                    console.log("Acertó");
+                    resultadoPalabras["palabrasNORealesAtinadas"]++;
+                } else {
+                    console.log("Falló");
+                }
+            }
+
+            console.log(resultadoPalabras);
+            
+            turnoPalabra = 'S';
+            miPalabraAMostrar = '+';
+            indicePalabraActual++;
+            
+            //Actualizo la barrade progreso
+            setPorcentaje(calcularPorcentaje());
+            
+            await ejecutarTimeout(1000).promesa;
+
+            setPalabraActual(miPalabraAMostrar);
+        }
     }
 
     React.useEffect(() => {
@@ -116,13 +204,18 @@ const MiJuego = () => {
             renderInicial = false;
             return;
         }
+
+
+        //Cambio la barra de porcentaje
+        let porcentaje = (indicePalabraActual / palabras.length) * 100;
+        progreso_barra.current.style.width = porcentaje + "%";
         //console.log("useEffect", palabraActual);
         mostrarPalabra();
         //console.log("useEffect", palabraActual);
     }, [palabraActual, estadoActual]);
     
     return (
-        <div className="juego_container_padre" onKeyDown={cambiarPalabra} tabIndex="0" ref={padreJuego}>
+        <div className="juego_container_padre" onKeyDown={analizarRespuesta} tabIndex="0" ref={padreJuego}>
             <div className="juego_container">
                 <div className="juego">
                     {estadoActual === "inicio" && (
@@ -136,11 +229,11 @@ const MiJuego = () => {
                             {palabraActual}
                         </div>
                     )}
-                    
+                    {estadoActual === "fin" && (<Resultados resultadoPalabras={resultadoPalabras}/>)} 
                 </div>
             </div>
             <div className="progreso">
-                <div className="progreso_barra"></div>
+                <div className="progreso_barra" ref={progreso_barra} style={{width: porcentaje+"%"}}></div>
             </div>
         </div>
     );
