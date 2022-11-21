@@ -23,7 +23,9 @@
   box-sizing: border-box;
 }
 
-
+li{
+  list-style: inside;
+}
 
 .App{
   background-color: rgb(242, 247, 251);
@@ -42,6 +44,8 @@
 
 .main{
   padding: 1.2rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
 }
 
 .instrucciones-contenedor{
@@ -56,6 +60,7 @@
   margin-bottom: 0.8rem;
 }
 
-.instrucciones-detalles{
+.instrucciones-detalles ul{
   text-align: justify;
+
 }

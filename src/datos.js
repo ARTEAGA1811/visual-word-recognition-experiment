@@ -1,11 +1,51 @@
+
+
+
+
 const palabrasReales = [
-    'casa',
-    'perro',
+    "casa",
+    "academia",
+    "camisa",
+    "libro",
+    "lápiz",
+    "mesa",
+    "luna",
+    "puerta",
+    "mochila",
+    "brazo",
+    "arrebol",
+    "bohemia", 
+    "isagoge",
+    "regodeo",
+    "xerofítico",
+    "alquimia",
+    "acmé",
+    "mamporrero",
+    "inefable",
+    "acecinar",
 ];
 
 const palabrasNOReales = [
-    'asac',
-    'orrep',
+    "domote",
+    "gérminis",
+    "abrantar",
+    "plufímero",
+    "mapra",
+    "ficcionita" ,
+    "flumpo",
+    "robotomía",
+    "estrón",
+    "seprento",
+    "járguelin",
+    "coquemallismo",
+    "chatar",
+    "guetracción",
+    "trampo",
+    "actrantar",
+    "gadusa",
+    "pandía",
+    "enepeísmo",
+    "rumiente",
 ];
 
 const resultadoPalabras = {
@@ -16,7 +56,7 @@ const resultadoPalabras = {
 }
 
 const resultadoTiempo = {
-    tiemposPalabrasREales: [],
+    tiemposPalabrasReales: [],
     tiemposPalabrasNOReales: [],
 }
 

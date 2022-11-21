@@ -1,6 +1,6 @@
 .juego_container_padre {
     padding: 0 1.4rem;
-    margin: 2rem 4rem 4rem 4rem;
+    margin: 2rem 6rem 4rem 6rem;
     outline: none;
 }
 
@@ -47,7 +47,7 @@
     font-size: 2rem;
     color: white;
     border: 0;
-    border-radius: 0.2rem;
+    border-radius: 0.4rem;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
     cursor: pointer;

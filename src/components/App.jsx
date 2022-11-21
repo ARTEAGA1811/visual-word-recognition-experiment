@@ -11,15 +11,13 @@ function App() {
 				<div className="instrucciones-contenedor">
 					<h2>Instrucciones</h2>
 					<p className="instrucciones-detalles">
-						En este experimento observarás una serie de ensayos experimentales.
-						<br />
-						En cada ensayo verás un signo <b>+</b> en el medio del cuadro azul, y poco después se mostrará un estímulo que es una <i>palabra real</i> o una <i>palabra no real</i>.
-						<br />
-						La barra de progreso en la parte inferior de este cuadro mostrará qué tan avanzado está el experimento.
-						<br />
-						Para cada estímulo, presiona la tecla <b><i>Z</i></b> para indicar que crees que es una <i>palabra no real</i> y la tecla <b><i>M</i></b> para indicar que es una <i>palabra real</i>.
-						<br />
-						Puedes presionar <b><i>Q</i></b> en cualquier momento para salir.
+						<ul>
+							<li>En este experimento observarás una serie de ensayos experimentales.</li>
+							<li>En cada ensayo verás un signo <b>+</b> en el medio del cuadro azul, y poco después se mostrará un estímulo que es una <b><i>palabra real</i></b> o una <b><i>palabra no real</i></b>.</li>
+							<li>La barra de progreso en la parte inferior de este cuadro mostrará qué tan avanzado está el experimento.</li>
+							<li>Para cada estímulo, presiona la tecla <b><i>Z</i></b> para indicar que crees que es una <b><i>palabra no real</i></b> y la tecla <b><i>M</i></b> para indicar que es una <b><i>palabra real</i></b>.</li>
+							<li>Puedes presionar <b><i>Q</i></b> en cualquier momento para salir.</li>
+						</ul>						
 					</p>
 				</div>
 

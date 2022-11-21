@@ -4,7 +4,7 @@ import { palabrasReales, palabrasNOReales , resultadoPalabras, resultadoTiempo }
 import { Resultados } from "./Resultados";
 
 let indicePalabraActual = 0;
-const palabras = [...palabrasReales, ...palabrasNOReales];
+let palabras = [...palabrasReales, ...palabrasNOReales];
 palabras.sort(() => Math.random() - 0.5);
 
 
@@ -18,10 +18,15 @@ let turnoPalabra = 'T';
 let miPalabraAMostrar;
 let interrupcionRespuesta = false;
 
+
+//Para medir el tiempo
+let tiempoInicio;
+let tiempoFin;
+
 const MiJuego = () => {
 
-    //const [estadoActual, setEstadoActual] = React.useState("inicio");
-    const [estadoActual, setEstadoActual] = React.useState("fin");
+    const [estadoActual, setEstadoActual] = React.useState("inicio");
+    //const [estadoActual, setEstadoActual] = React.useState("fin");
     const [palabraActual, setPalabraActual] = React.useState("");
     const [porcentaje, setPorcentaje] = React.useState(0);
 
@@ -31,6 +36,31 @@ const MiJuego = () => {
 
     console.log(palabras);
     //console.log(indicePalabraActual)
+
+
+    const reiniciarJuego = () => {
+        indicePalabraActual = 0;
+        renderInicial = true;
+        tiempoPalabra = null;
+        turnoPalabra = 'T';
+        miPalabraAMostrar = undefined;
+        interrupcionRespuesta = false;
+        tiempoInicio = undefined;
+        tiempoFin = undefined;
+
+        palabras.sort(() => Math.random() - 0.5);
+
+        resultadoPalabras.palabrasRealesAtinadas = 0;
+        resultadoPalabras.palabrasNORealesAtinadas = 0;
+
+        resultadoTiempo.tiemposPalabrasReales = [];
+        resultadoTiempo.tiemposPalabrasNOReales = [];
+
+
+        setEstadoActual("inicio");
+        setPalabraActual("");
+        setPorcentaje(0);
+    }
 
 
     const calcularPorcentaje = () =>{
@@ -101,8 +131,8 @@ const MiJuego = () => {
             setPorcentaje(calcularPorcentaje());
         
         } else if (turnoPalabra === 'S') {
-            console.log("Ahora está en simbolo")
-            console.log("Palabra: " + palabras[indicePalabraActual]);
+            //console.log("Ahora está en simbolo")
+            //console.log("Palabra: " + palabras[indicePalabraActual]);
 
             
             //Si estuvo en Simbolo, debe mostrar la palabra
@@ -113,10 +143,11 @@ const MiJuego = () => {
             setPalabraActual(miPalabraAMostrar);
         
         } else if (turnoPalabra === 'P') {
-            console.log("Ahora está en palabra")
+            //console.log("Ahora está en palabra")
             interrupcionRespuesta = false;
 
-            
+            //Empezamos a medir el tiempo.
+            tiempoInicio = new Date();
 
             //Hacemos invisible la palabra
             setTimeout(() => {
@@ -126,8 +157,9 @@ const MiJuego = () => {
             tiempoPalabra = ejecutarTimeout(6000);
             await tiempoPalabra.promesa;
 
-            console.log("Voy a ingresar a la interrupción: ", interrupcionRespuesta);
-            console.log("Voy a ingresar a la interrupción con el indice: ", indicePalabraActual);
+
+            //console.log("Voy a ingresar a la interrupción: ", interrupcionRespuesta);
+            //console.log("Voy a ingresar a la interrupción con el indice: ", indicePalabraActual);
             if (!interrupcionRespuesta) {
                 console.log("No hubo interrupción");
                 //Si estuvo en Palabra, debe mostrar el timeout
@@ -152,39 +184,65 @@ const MiJuego = () => {
         if (estadoActual !== "juego") {
             return;
         }
+
+        //Para reiniciar el juego, se presiona la tecla "q" o "Q"
+        if (event.key === "q" || event.key === "Q") {
+            console.log("Reiniciando el juego");
+            interrupcionRespuesta = true;
+            tiempoPalabra.cancelar();
+            reiniciarJuego();
+            return;
+        }
+
+
         if (turnoPalabra !== 'P') {
             return;
         }
+
+
+
         if (event.key === "z" || event.key === "Z" || event.key === "M" || event.key === "m") {
             
+            //SE corta el contador de tiempo
+            tiempoFin = new Date();
+
+
             //Se elimina el tiempo de la palabra y se continúa con la siguiente, se empieza con el símbolo.
-            console.log(event.key);
-            console.log("Inicia la interrupción");
-            console.log("Inicia la interrupción con el indice: ", indicePalabraActual);
+            //console.log(event.key);
+            //console.log("Inicia la interrupción");
+            //console.log("Inicia la interrupción con el indice: ", indicePalabraActual);
             interrupcionRespuesta = true;
             tiempoPalabra.cancelar();
             
             
             //Aquí ingrsamos la lógica que registra si la palabra es real o no
             if (palabrasReales.includes(palabras[indicePalabraActual])) {
-                console.log("Es real");
+                //console.log("Es real");
                 if (event.key === "m" || event.key === "M") {
-                    console.log("Acertó");
+                    //console.log("Acertó");
                     resultadoPalabras["palabrasRealesAtinadas"]++;
-                } else {
-                    console.log("Falló");
+                    
+                    //Se guarda el tiempo de respuesta
+                    resultadoTiempo["tiemposPalabrasReales"].push(tiempoFin - tiempoInicio);
+                    console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
+                    console.log("Tiempos de palabras reales: ", resultadoTiempo["tiemposPalabrasReales"]);
+                    console.log("Total", resultadoTiempo)
                 }
             } else {
-                console.log("No es real");
+                //console.log("No es real");
                 if (event.key === "z" || event.key === "Z") {
-                    console.log("Acertó");
+                    //console.log("Acertó");
                     resultadoPalabras["palabrasNORealesAtinadas"]++;
-                } else {
-                    console.log("Falló");
+
+                    //Se guarda el tiempo de respuesta
+                    resultadoTiempo["tiemposPalabrasNOReales"].push(tiempoFin - tiempoInicio);
+                    console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
+                    console.log("Tiempos de palabras NO reales: ", resultadoTiempo["tiemposPalabrasNOReales"]);
+                    console.log("Total", resultadoTiempo)
                 }
             }
 
-            console.log(resultadoPalabras);
+            //console.log(resultadoPalabras);
             
             turnoPalabra = 'S';
             miPalabraAMostrar = '+';
@@ -229,7 +287,7 @@ const MiJuego = () => {
                             {palabraActual}
                         </div>
                     )}
-                    {estadoActual === "fin" && (<Resultados resultadoPalabras={resultadoPalabras}/>)} 
+                    {estadoActual === "fin" && (<Resultados resultadoPalabras={resultadoPalabras} resultadoTiempo={resultadoTiempo} reiniciarJuego={reiniciarJuego}/>)} 
                 </div>
             </div>
             <div className="progreso">
