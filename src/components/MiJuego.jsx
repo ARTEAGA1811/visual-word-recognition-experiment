@@ -34,7 +34,7 @@ const MiJuego = () => {
     const htmlPalabra = React.useRef();
     const progreso_barra = React.useRef();
 
-    console.log(palabras);
+    //console.log(palabras);
     //console.log(indicePalabraActual)
 
 
@@ -65,11 +65,11 @@ const MiJuego = () => {
 
     const calcularPorcentaje = () =>{
         //Cambio la barra de porcentaje
-        console.log("Calculando porcentaje");
-        console.log("indice", indicePalabraActual);
-        console.log("palabras totales", palabras.length);
+        // console.log("Calculando porcentaje");
+        // console.log("indice", indicePalabraActual);
+        // console.log("palabras totales", palabras.length);
         let porcentaje = ((indicePalabraActual) / palabras.length) * 100;
-        console.log(porcentaje);
+        //console.log(porcentaje);
         return porcentaje;
     }
 
@@ -103,7 +103,7 @@ const MiJuego = () => {
     }
 
     const mostrarPalabra = async () => {
-        console.log("Indice: " + indicePalabraActual);
+        // console.log("Indice: " + indicePalabraActual);
         //debugger;
         //console.log("mostrar palabra");
         if (indicePalabraActual >= palabras.length) {
@@ -117,8 +117,8 @@ const MiJuego = () => {
 
         //Si estuvo en Timeout, debe mostrar el simbolo
         if (turnoPalabra === 'T') {
-            console.log("Ahora está en timeout")
-            console.log("Indice: " + indicePalabraActual);
+            // console.log("Ahora está en timeout")
+            // console.log("Indice: " + indicePalabraActual);
             htmlPalabra.current.style.visibility = "visible";
             miPalabraAMostrar = '+';
             turnoPalabra = 'S';
@@ -148,13 +148,14 @@ const MiJuego = () => {
 
             //Empezamos a medir el tiempo.
             tiempoInicio = new Date();
+            console.log("Registro tiempo inicio: " + tiempoInicio);
 
             //Hacemos invisible la palabra
             setTimeout(() => {
                 palabraInvisible();
             }, 300);
 
-            tiempoPalabra = ejecutarTimeout(6000);
+            tiempoPalabra = ejecutarTimeout(4000);
             await tiempoPalabra.promesa;
 
 
@@ -224,9 +225,12 @@ const MiJuego = () => {
                     
                     //Se guarda el tiempo de respuesta
                     resultadoTiempo["tiemposPalabrasReales"].push(tiempoFin - tiempoInicio);
-                    console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
-                    console.log("Tiempos de palabras reales: ", resultadoTiempo["tiemposPalabrasReales"]);
-                    console.log("Total", resultadoTiempo)
+                    // console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
+                    // console.log("Tiempos de palabras reales: ", resultadoTiempo["tiemposPalabrasReales"]);
+                    // console.log("Total", resultadoTiempo)
+                    console.log("Registro tiempo fin: " + tiempoFin);
+                    console.log("Registro: " + tiempoFin + " Registro: "+ tiempoInicio);
+                    console.log("Tiempo registrado: " + (tiempoFin - tiempoInicio));
                 }
             } else {
                 //console.log("No es real");
@@ -236,9 +240,12 @@ const MiJuego = () => {
 
                     //Se guarda el tiempo de respuesta
                     resultadoTiempo["tiemposPalabrasNOReales"].push(tiempoFin - tiempoInicio);
-                    console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
-                    console.log("Tiempos de palabras NO reales: ", resultadoTiempo["tiemposPalabrasNOReales"]);
-                    console.log("Total", resultadoTiempo)
+                    // console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
+                    // console.log("Tiempos de palabras NO reales: ", resultadoTiempo["tiemposPalabrasNOReales"]);
+                    // console.log("Total", resultadoTiempo)
+                    console.log("Registro tiempo fin: " + tiempoFin);
+                    console.log("Registro: " + tiempoFin + " Registro: "+ tiempoInicio);
+                    console.log("Tiempo registrado: " + (tiempoFin - tiempoInicio));
                 }
             }
 

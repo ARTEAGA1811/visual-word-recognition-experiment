@@ -7,6 +7,9 @@ const Resultados = (props) => {
     const resultadoPalabras = props.resultadoPalabras;
     const resultadoTiempo = props.resultadoTiempo;
 
+    console.log(resultadoPalabras);
+    console.log(resultadoTiempo);
+
 
     const realesAtinadas = resultadoPalabras.palabrasRealesAtinadas;
     const realesTotales = resultadoPalabras.palabrasRealesTotales;
@@ -46,7 +49,6 @@ const Resultados = (props) => {
                     </p>
                     <p>Tiempo promedio: {calcularPromedio(resultadoTiempo.tiemposPalabrasReales)} ms</p>
 
-                   
                 </div>
                 <div className="resultados_no_reales">
                     <p>
