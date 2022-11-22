@@ -11,6 +11,8 @@ palabras.sort(() => Math.random() - 0.5);
 
 let renderInicial = true;
 let tiempoPalabra = null;
+let tiempoTimeout = null;
+let tiempoSimbolo = null;
 //Timeout: T
 //Palabra: P
 //Simbolo: S
@@ -34,7 +36,7 @@ const MiJuego = () => {
     const htmlPalabra = React.useRef();
     const progreso_barra = React.useRef();
 
-    //console.log(palabras);
+    //console.log(palabras[0], palabras[1], palabras[2]);
     //console.log(indicePalabraActual)
 
 
@@ -122,7 +124,8 @@ const MiJuego = () => {
             htmlPalabra.current.style.visibility = "visible";
             miPalabraAMostrar = '+';
             turnoPalabra = 'S';
-            await ejecutarTimeout(1000).promesa;
+            tiempoTimeout = ejecutarTimeout(1000);
+            await tiempoTimeout.promesa;
 
 
             setPalabraActual(miPalabraAMostrar);
@@ -137,7 +140,9 @@ const MiJuego = () => {
             
             //Si estuvo en Simbolo, debe mostrar la palabra
             htmlPalabra.current.style.visibility = "visible";
-            await ejecutarTimeout(300).promesa;
+            tiempoSimbolo = ejecutarTimeout(300);
+            await tiempoSimbolo.promesa;
+
             miPalabraAMostrar = palabras[indicePalabraActual];
             turnoPalabra = 'P';
             setPalabraActual(miPalabraAMostrar);
@@ -191,6 +196,8 @@ const MiJuego = () => {
             console.log("Reiniciando el juego");
             interrupcionRespuesta = true;
             tiempoPalabra.cancelar();
+            tiempoSimbolo.cancelar();
+            tiempoTimeout.cancelar();
             reiniciarJuego();
             return;
         }
