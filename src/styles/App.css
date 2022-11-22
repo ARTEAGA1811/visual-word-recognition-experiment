@@ -60,7 +60,33 @@ li{
   margin-bottom: 0.8rem;
 }
 
+.instrucciones-detalles{
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
 .instrucciones-detalles ul{
   text-align: justify;
+  line-height: 1.5rem;
+}
 
+.instrucciones_glosario{
+  font-weight: 400;
+}
+
+.instrucciones_glosario .instrucciones_glosario-palabra{
+  font-weight: 400;
+}
+
+.footer{
+  background-color: white;
+  padding: 0.5rem;
+  text-align: end;
+}
+
+.footer .nombre_creador{
+  color: #004F88;
+  font-weight: 400;
+  margin-right: 0.5rem;
+  font-size: smaller;
 }
