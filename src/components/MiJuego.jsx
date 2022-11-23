@@ -54,9 +54,13 @@ const MiJuego = () => {
 
         resultadoPalabras.palabrasRealesAtinadas = 0;
         resultadoPalabras.palabrasNORealesAtinadas = 0;
+        resultadoPalabras.palabrasFrecuentesAtinadas = 0;
+        resultadoPalabras.palabrasNoFrecuentesAtinadas = 0;
 
         resultadoTiempo.tiemposPalabrasReales = [];
         resultadoTiempo.tiemposPalabrasNOReales = [];
+        resultadoTiempo.tiemposPalabrasFrecuentes = [];
+        resultadoTiempo.tiemposPalabrasNoFrecuentes = [];
 
 
         setEstadoActual("inicio");

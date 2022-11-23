@@ -27,6 +27,7 @@ function App() {
 				<MiJuego />
 			</main>
 			<footer className="footer">
+				<p className="invisible">Viva Twice</p>
 				<p className="nombre_creador">By: Art3</p>
 			</footer>
         </div>
