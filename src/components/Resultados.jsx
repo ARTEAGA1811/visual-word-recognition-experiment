@@ -14,7 +14,11 @@ const Resultados = (props) => {
     const realesAtinadas = resultadoPalabras.palabrasRealesAtinadas;
     const realesTotales = resultadoPalabras.palabrasRealesTotales;
     const NOrealesAtinadas = resultadoPalabras.palabrasNORealesAtinadas;
-    const NOrealesTotales = resultadoPalabras.palabrasNORealesTotales
+    const NOrealesTotales = resultadoPalabras.palabrasNORealesTotales;
+    const frecuentesAtinadas = resultadoPalabras.palabrasFrecuentesAtinadas;
+    const frecuentesTotales = resultadoPalabras.palabrasFrecuentesTotales;
+    const NOfrecuentesAtinadas = resultadoPalabras.palabrasNoFrecuentesAtinadas;
+    const NOfrecuentesTotales = resultadoPalabras.palabrasNoFrecuentesTotales;
 
     const calcularPorcentaje = (atinadas, totales) => {
         let miPorcentaje = (atinadas / totales) * 100;
@@ -43,22 +47,34 @@ const Resultados = (props) => {
         <div className="contenedor_resultado">
             <h1 className="titulo">Fin del experimento</h1>
             <div className="resultados">
-                <div className="resultados_reales">
+                <div className="info resultados_reales">
                     <p>
                         <b>Palabras Reales:</b> {realesAtinadas} / {realesTotales} ({calcularPorcentaje(realesAtinadas, realesTotales)}%)
                     </p>
                     <p>Tiempo promedio: {calcularPromedio(resultadoTiempo.tiemposPalabrasReales)} ms</p>
 
                 </div>
-                <div className="resultados_no_reales">
+                <div className="info resultados_no_reales">
                     <p>
                         <b>Palabras No Reales:</b> {NOrealesAtinadas} / {NOrealesTotales} ({calcularPorcentaje(NOrealesAtinadas, NOrealesTotales)}%)
                     </p>
                     <p>Tiempo promedio: {calcularPromedio(resultadoTiempo.tiemposPalabrasNOReales)} ms</p>
                 </div>
-                <button className="mi_boton_resultado" onClick={props.reiniciarJuego}>Volver a jugar</button>
-
+                <div className="info">
+                    <p>
+                        <b>Palabras Frecuentes:</b> {frecuentesAtinadas} / {frecuentesTotales} ({calcularPorcentaje(frecuentesAtinadas, frecuentesTotales)}%)
+                    </p>
+                    <p>Tiempo promedio: {calcularPromedio(resultadoTiempo.tiemposPalabrasFrecuentes)} ms</p>
+                </div>
+                <div className="info">
+                    <p>
+                        <b>Palabras No Frecuentes:</b> {NOfrecuentesAtinadas} / {NOfrecuentesTotales} ({calcularPorcentaje(NOfrecuentesAtinadas, NOfrecuentesTotales)}%)
+                    </p>
+                    <p>Tiempo promedio: {calcularPromedio(resultadoTiempo.tiemposPalabrasNoFrecuentes)} ms</p>
+                </div>
             </div>
+            
+            <button className="mi_boton_resultado" onClick={props.reiniciarJuego}>Volver a jugar</button>
 
         </div>
     );

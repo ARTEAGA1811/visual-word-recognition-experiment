@@ -1,6 +1,6 @@
 import React from "react";
 import '../styles/MiJuego.css';
-import { palabrasReales, palabrasNOReales , resultadoPalabras, resultadoTiempo } from "../datos"; 
+import { palabrasReales, palabrasNOReales, palabrasFrecuentes, resultadoPalabras, resultadoTiempo } from "../datos"; 
 import { Resultados } from "./Resultados";
 
 let indicePalabraActual = 0;
@@ -213,6 +213,7 @@ const MiJuego = () => {
             
             //SE corta el contador de tiempo
             tiempoFin = new Date();
+            let tiempoTranscurrido = tiempoFin - tiempoInicio;
 
 
             //Se elimina el tiempo de la palabra y se continúa con la siguiente, se empieza con el símbolo.
@@ -228,16 +229,23 @@ const MiJuego = () => {
                 //console.log("Es real");
                 if (event.key === "m" || event.key === "M") {
                     //console.log("Acertó");
+                    if (palabrasFrecuentes.includes(palabras[indicePalabraActual])) {
+                        resultadoPalabras["palabrasFrecuentesAtinadas"]++;
+                        resultadoTiempo["tiemposPalabrasFrecuentes"].push(tiempoTranscurrido);
+                    } else {
+                        resultadoPalabras["palabrasNoFrecuentesAtinadas"]++;
+                        resultadoTiempo["tiemposPalabrasNoFrecuentes"].push(tiempoTranscurrido);
+                    }
+
                     resultadoPalabras["palabrasRealesAtinadas"]++;
-                    
                     //Se guarda el tiempo de respuesta
-                    resultadoTiempo["tiemposPalabrasReales"].push(tiempoFin - tiempoInicio);
+                    resultadoTiempo["tiemposPalabrasReales"].push(tiempoTranscurrido);
                     // console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
                     // console.log("Tiempos de palabras reales: ", resultadoTiempo["tiemposPalabrasReales"]);
                     // console.log("Total", resultadoTiempo)
                     console.log("Registro tiempo fin: " + tiempoFin);
                     console.log("Registro: " + tiempoFin + " Registro: "+ tiempoInicio);
-                    console.log("Tiempo registrado: " + (tiempoFin - tiempoInicio));
+                    console.log("Tiempo registrado: " + tiempoTranscurrido);
                 }
             } else {
                 //console.log("No es real");
@@ -246,13 +254,13 @@ const MiJuego = () => {
                     resultadoPalabras["palabrasNORealesAtinadas"]++;
 
                     //Se guarda el tiempo de respuesta
-                    resultadoTiempo["tiemposPalabrasNOReales"].push(tiempoFin - tiempoInicio);
+                    resultadoTiempo["tiemposPalabrasNOReales"].push(tiempoTranscurrido);
                     // console.log("Tiempo de respuesta: ", tiempoFin - tiempoInicio);
                     // console.log("Tiempos de palabras NO reales: ", resultadoTiempo["tiemposPalabrasNOReales"]);
                     // console.log("Total", resultadoTiempo)
                     console.log("Registro tiempo fin: " + tiempoFin);
                     console.log("Registro: " + tiempoFin + " Registro: "+ tiempoInicio);
-                    console.log("Tiempo registrado: " + (tiempoFin - tiempoInicio));
+                    console.log("Tiempo registrado: " + tiempoTranscurrido);
                 }
             }
 

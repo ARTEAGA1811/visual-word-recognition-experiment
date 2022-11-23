@@ -19,9 +19,15 @@
     align-items: center;
     justify-content: center;
     gap: 1.2rem;
+    margin-bottom: 0.4rem;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-content: center;
+    gap: 1.4rem;
+    margin-bottom: 2rem; */
 }
 
-.resultados_reales, .resultados_no_reales{
+.info{
     display: flex;
     flex-direction: column;
     align-items: center;
